@@ -1,13 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
-class User(models.Model):
+class User(AbstractUser):
 
-    name = models.CharField(max_length=5)
-    password = models.CharField(max_length=10)
     phone = models.CharField(max_length=12)
-    email = models.CharField(max_length=20)
-    since = models.DateField(auto_now_add=True)
 
+ 
 class Agent(User):
-    rating = models.DecimalField(decimal_places=1)
+
+    rating = models.DecimalField(decimal_places=1, max_digits=1)
