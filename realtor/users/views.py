@@ -1,3 +1,13 @@
 from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from .models import User
+from .models import Agent
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+
+
+class AgentViewSet(viewsets.ModelViewSet):
+    queryset = Agent.objects.all()
