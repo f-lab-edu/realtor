@@ -5,10 +5,13 @@ from .views import ContractViewSet
 from .views import ApplicationViewSet
 
 
-router = routers.DefaultRouter()
-router.register("applications", ApplicationViewSet, basename = "application")
+applicationRouter = routers.DefaultRouter()
+applicationRouter.register("applications", ApplicationViewSet, basename = "application")
 
+contractRouter = routers.DefaultRouter()
+contractRouter.register("contracts", ContractViewSet)
 
 urlpatterns = [
-    path(),
+    path("", include(applicationRouter.urls)),
+    path("", include(contractRouter.urls))
 ]
