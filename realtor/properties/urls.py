@@ -1,13 +1,11 @@
 from django.urls import include, path
-from rest_framework import routers
-
-from .views import PropertyViewSet
-
-
-router = routers.DefaultRouter()
-router.register("properties", PropertyViewSet, basename="property");
+from properties import views
+from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("properties/", views.PropertyList.as_view()),
+    path('properties/<int:pk>/', views.PropertyDetail.as_view())
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
