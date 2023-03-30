@@ -266,3 +266,6 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,django
 
 .DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

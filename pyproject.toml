@@ -8,8 +8,30 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "~3.2"
+djangorestframework = "^3.14.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.2.1"
+isort = "^5.12.0"
+black = "^23.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 119
+exclude = '''
+/(
+  | \.git
+  | \.pytype
+  | migrations
+)/
+'''
+
+[tool.isort]
+line_length = 119
+profile = "black"
+skip_glob = ["*/migrations/*"]
+
