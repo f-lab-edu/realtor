@@ -12,4 +12,4 @@ class ContractSerializer(serializers.ModelSerializer):
 class AgentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agent
-        fields = ["id", "username", "password", "email", "phone", "rating", "date_joined"]
+        fields = ["id", "username", "email", "phone", "rating", "date_joined"]
