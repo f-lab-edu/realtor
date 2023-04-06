@@ -18,6 +18,8 @@ class Application(models.Model):
     comment = models.TextField()
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    agent = models.ForeignKey("transactions.Agent", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
 class PreferredProperty(models.Model):
@@ -30,3 +32,4 @@ class PreferredProperty(models.Model):
     budget_from = models.IntegerField()
     budget_to = models.IntegerField()
     description = models.TextField()
+    users = models.ManyToManyField(User)

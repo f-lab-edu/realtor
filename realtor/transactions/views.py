@@ -36,6 +36,9 @@ class ContractList(generics.ListCreateAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
 
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(agent=self.kwargs['agent_id'])
+
     def get(self, request, *args, **kwargs):  # admin monitors all users
         return self.list(request, *args, **kwargs)
 
