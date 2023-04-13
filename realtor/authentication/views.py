@@ -44,10 +44,3 @@ class LoginView(APIView):
         login_serializer.is_valid(raise_exception=True)
 
         return Response(login_serializer.data, status=status.HTTP_200_OK)
-
-
-class LogoutView(APIView):
-    def get(self, request, *args, **kwargs):
-
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)

@@ -28,7 +28,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def get_and_authenticate_user(username, password):
         user = authenticate(username=username, password=password)
-        if user is None:
+        if not user:
             raise serializers.ValidationError("Invalid username or password. Please try again!")
         return user
 
@@ -68,7 +68,7 @@ class UserLoginSerializer(serializers.Serializer):
 
         user = authenticate(username=username, password=password)
 
-        if user is None:
+        if not user:
             raise serializers.ValidationError("A user with this username and password was not found")
         if not user.is_active:
             raise serializers.ValidationError("this user has been deactivated")
