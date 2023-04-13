@@ -17,8 +17,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         if len(validated_data) < 3:
             raise serializers.ValidationError("username is too short!")
 
-        if User.objects.filter(username=validated_data).exists():
-            raise serializers.ValidationError("username is already taken!")
         else:
             return validated_data
 
