@@ -8,8 +8,6 @@ from .models import Property
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
 
-    readonly_fields = ["full_address"]
-    fields = ["full_address"]
     list_display = ["id", "full_address", "property_type", "detailed_type", "status"]
     list_filter = ("city", "district", "zone", "property_type", "detailed_type", "status")
     list_per_page = 5
@@ -18,6 +16,3 @@ class PropertyAdmin(admin.ModelAdmin):
     @admin.display(description="Address")
     def full_address(self, obj):
         return obj.city + " " + obj.district + " " + obj.zone
-
-    class Meta:
-        verbose_name_plural = "Properties"
