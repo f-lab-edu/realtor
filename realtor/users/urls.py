@@ -7,7 +7,6 @@ urlpatterns = [
     path("<int:pk>/", views.UserDetail.as_view()),
     path("<int:pk>/applications/", views.ApplicationList.as_view()),
     path("<int:pk>/preferredProperties/", views.PreferredPropertyList.as_view()),
-    # path("<int:pk>/applications/<int:pk>", views.ApplicationDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

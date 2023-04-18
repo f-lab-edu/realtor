@@ -1,5 +1,3 @@
-import json
-
 from authentication.serializers import RegistrationSerializer, UserLoginSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import status

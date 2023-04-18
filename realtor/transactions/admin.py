@@ -10,14 +10,24 @@ from .models import Agent, Contract
 class AgentAdmin(admin.ModelAdmin):
 
     list_display = ["id", "user", "rating"]
+    list_per_page = 5
     list_filter = ["rating"]
 
 
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
 
-    list_display = ["id", "start_date", "end_date", "mortgage_ratio"]
+    list_display = [
+        "id",
+        "mortgage_ratio",
+        "short_agreements",
+        "start_date",
+        "end_date",
+    ]
     list_per_page = 5
     list_filter = (("start_date", DateRangeFilter), ("end_date", DateRangeFilter), "mortgage_ratio")
-    exclude = ["agreements"]
-    search_fields = ["start_date", "end_date", "mortgage_ratio"]
+    search_fields = ["mortgage_ratio"]
+
+    @admin.display(description="brief agreements")
+    def short_agreements(self, obj):
+        return obj.agreements[:20]

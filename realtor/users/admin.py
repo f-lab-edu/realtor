@@ -11,6 +11,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ["id", "username", "upper_case_name", "date_joined", "last_login"]
     list_editable = ["username"]
     list_per_page = 5
+    list_display_links = ["upper_case_name"]
     list_filter = ("username", ("date_joined", DateRangeFilter))
     exclude = ["password"]
     search_fields = ["username", "first_name", "last_name"]
@@ -23,7 +24,6 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ["id", "status", "created_at", "updated_at"]
-    list_editable = ["status"]
     list_per_page = 5
     list_filter = ["status"]
     search_fields = ["status"]
