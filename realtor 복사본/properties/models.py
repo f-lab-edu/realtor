@@ -19,6 +19,3 @@ class Property(models.Model):
     status = models.IntegerField(choices=StatusType.choices, default=StatusType.AVAILABLE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     agents = models.ManyToManyField(Agent)
-
-    class Meta:
-        verbose_name_plural = "Properties"

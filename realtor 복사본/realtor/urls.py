@@ -21,5 +21,4 @@ urlpatterns = [
     path("properties/", include("properties.urls")),
     path("users/", include("users.urls")),
     path("agents/", include("transactions.urls")),
-    path("authentication/", include("authentication.urls")),
 ]
