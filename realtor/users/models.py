@@ -33,3 +33,6 @@ class PreferredProperty(models.Model):
     budget_to = models.IntegerField()
     description = models.TextField()
     users = models.ManyToManyField(User)
+
+    class Meta:
+        verbose_name_plural = "Preferred_Properties"
