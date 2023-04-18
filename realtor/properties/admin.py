@@ -18,3 +18,6 @@ class PropertyAdmin(admin.ModelAdmin):
     @admin.display(description="Address")
     def full_address(self, obj):
         return obj.city + " " + obj.district + " " + obj.zone
+
+    class Meta:
+        verbose_name_plural = "Properties"
