@@ -136,6 +136,21 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-suit"
+version = "2.0a2"
+description = "Modern theme for Django admin interface."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "v2", hash = "sha256:b40c916de9528ca86bcccd42d1fd54e7773e5071d2bfd9efc576039c1a441c0b"},
+]
+
+[package.source]
+type = "url"
+url = "https://github.com/darklow/django-suit/tarball/v2"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -181,6 +196,18 @@ files = [
 
 [package.extras]
 license = ["ukkonen"]
+
+[[package]]
+name = "install"
+version = "1.3.5"
+description = "Install packages from within code"
+category = "main"
+optional = false
+python-versions = ">=2.7, >=3.5"
+files = [
+    {file = "install-1.3.5-py3-none-any.whl", hash = "sha256:0d3fadf4aa62c95efe8d34757c8507eb46177f86c016c21c6551eafc6a53d5a9"},
+    {file = "install-1.3.5.tar.gz", hash = "sha256:e67c8a0be5ccf8cb4ffa17d090f3a61b6e820e6a7e21cd1d2c0f7bc59b18e647"},
+]
 
 [[package]]
 name = "isort"
@@ -249,6 +276,18 @@ python-versions = ">=3.7"
 files = [
     {file = "pathspec-0.11.1-py3-none-any.whl", hash = "sha256:d8af70af76652554bd134c22b3e8a1cc46ed7d91edcdd721ef1a0c51a84a5293"},
     {file = "pathspec-0.11.1.tar.gz", hash = "sha256:2798de800fa92780e33acca925945e9a19a133b715067cf165b8866c15a31687"},
+]
+
+[[package]]
+name = "pip"
+version = "23.1"
+description = "The PyPA recommended tool for installing Python packages."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pip-23.1-py3-none-any.whl", hash = "sha256:64b1d4528e491aa835ec6ece0c1ac40ce6ab6d886e60740f6519db44b2e9634d"},
+    {file = "pip-23.1.tar.gz", hash = "sha256:408539897ee535dbfb83a153f7bc4d620f990d8bd44a52a986efc0b4d330d34a"},
 ]
 
 [[package]]
@@ -401,4 +440,4 @@ test = ["covdefaults (>=2.2.2)", "coverage (>=7.1)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3421e812c9ada93272ffe2778266b4ec740f80da997af177b2c0d3c9309bd454"
+content-hash = "3151c630f3f837566320c2d9bf356b3f12983e7d6c9981c3829be6c9542f6213"
