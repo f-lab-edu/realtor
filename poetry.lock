@@ -136,21 +136,6 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
-name = "django-suit"
-version = "2.0a2"
-description = "Modern theme for Django admin interface."
-category = "main"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "v2", hash = "sha256:b40c916de9528ca86bcccd42d1fd54e7773e5071d2bfd9efc576039c1a441c0b"},
-]
-
-[package.source]
-type = "url"
-url = "https://github.com/darklow/django-suit/tarball/v2"
-
-[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -440,4 +425,4 @@ test = ["covdefaults (>=2.2.2)", "coverage (>=7.1)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3151c630f3f837566320c2d9bf356b3f12983e7d6c9981c3829be6c9542f6213"
+content-hash = "3101313082cfaf40b7f907b65a5fc6f402bf1ffb26550f23c3a62a5306f3a48e"
