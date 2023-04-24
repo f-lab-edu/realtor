@@ -1,14 +1,13 @@
 from django.urls import include, path
-from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 
-from .views import ContractViewSet
-from .views import ApplicationViewSet
-
-
-router = routers.DefaultRouter()
-router.register("applications", ApplicationViewSet, basename = "application")
-
+from . import views
 
 urlpatterns = [
-    path(),
+    path("", views.AgentList.as_view()),
+    path("<int:pk>/", views.AgentDetail.as_view()),
+    path("<int:a_pk>/contracts/", views.ContractList.as_view()),
+    path("<int:a_pk>/contracts/<int:pk>", views.ContractDetail.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

@@ -1,14 +1,12 @@
 from django.urls import include, path
-from rest_framework import routers
-
-from .views import UserViewSet
-from .views import AgentViewSet
-
-
-router = routers.DefaultRouter()
-router.register("users", UserViewSet, basename = "user")
-
+from rest_framework.urlpatterns import format_suffix_patterns
+from users import views
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", views.UserList.as_view()),
+    path("<int:pk>/", views.UserDetail.as_view()),
+    path("<int:pk>/applications/", views.ApplicationList.as_view()),
+    path("<int:pk>/preferredProperties/", views.PreferredPropertyList.as_view()),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, get_user_model, password_validation
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from rest_framework import serializers
 
