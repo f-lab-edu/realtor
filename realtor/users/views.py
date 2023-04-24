@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from users.models import Application, PreferredProperty, User
 from users.serializers import ApplicationSerializer, PreferredPropertySerializer, UserSerializer
@@ -31,8 +32,11 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ApplicationList(generics.ListCreateAPIView):
+    model = Application
 
-    queryset = Application.objects.all()
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.kwargs["pk"])
+
     serializer_class = ApplicationSerializer
 
     def get(self, request, *args, **kwargs):
@@ -43,8 +47,13 @@ class ApplicationList(generics.ListCreateAPIView):
 
 
 class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Application
+    lookup_field = "id"
 
-    queryset = Application.objects.all()
+    def get_queryset(self):
+        print(self.kwargs)
+        return self.model.objects.filter(user=self.kwargs["pk"])
+
     serializer_class = ApplicationSerializer
 
     def put(self, request, *args, **kwargs):
@@ -56,7 +65,11 @@ class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class PreferredPropertyList(generics.ListCreateAPIView):
 
-    queryset = PreferredProperty.objects.all()
+    model = PreferredProperty
+
+    def get_queryset(self):
+        return self.model.objects.filter(users=self.kwargs["pk"])
+
     serializer_class = PreferredPropertySerializer
 
     def get(self, request, *args, **kwargs):
@@ -68,7 +81,12 @@ class PreferredPropertyList(generics.ListCreateAPIView):
 
 class PreferredPropertyDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    queryset = PreferredProperty.objects.all()
+    model = PreferredProperty
+    lookup_field = "id"
+
+    def get_queryset(self):
+        return self.model.objects.filter(users=self.kwargs["pk"])
+
     serializer_class = PreferredPropertySerializer
 
     def put(self, request, *args, **kwargs):
