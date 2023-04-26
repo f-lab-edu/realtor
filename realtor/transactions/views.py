@@ -33,11 +33,10 @@ class AgentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class ContractList(generics.ListCreateAPIView):
 
-    model = Contract
     serializer_class = ContractSerializer
 
     def get_queryset(self):
-        return self.model.objects.filter(agent=self.kwargs["pk"])
+        return Contract.objects.filter(agent=self.kwargs["pk"])
 
     def get(self, request, *args, **kwargs):  # admin monitors all users
         return self.list(request, *args, **kwargs)
@@ -48,11 +47,10 @@ class ContractList(generics.ListCreateAPIView):
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    model = Contract
     lookup_field = "id"
 
     def get_queryset(self):
-        return self.model.objects.filter(agent=self.kwargs["pk"])
+        return Contract.objects.filter(agent=self.kwargs["pk"])
 
     serializer_class = ContractSerializer
 

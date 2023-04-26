@@ -32,10 +32,9 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ApplicationList(generics.ListCreateAPIView):
-    model = Application
-
     def get_queryset(self):
-        return self.model.objects.filter(user=self.kwargs["pk"])
+
+        return Application.objects.filter(user=self.kwargs["pk"])
 
     serializer_class = ApplicationSerializer
 
@@ -47,12 +46,12 @@ class ApplicationList(generics.ListCreateAPIView):
 
 
 class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = Application
+
     lookup_field = "id"
 
     def get_queryset(self):
-        print(self.kwargs)
-        return self.model.objects.filter(user=self.kwargs["pk"])
+
+        return Application.objects.filter(user=self.kwargs["pk"])
 
     serializer_class = ApplicationSerializer
 
@@ -64,11 +63,9 @@ class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class PreferredPropertyList(generics.ListCreateAPIView):
-
-    model = PreferredProperty
-
     def get_queryset(self):
-        return self.model.objects.filter(users=self.kwargs["pk"])
+
+        return PreferredProperty.objects.filter(users=self.kwargs["pk"])
 
     serializer_class = PreferredPropertySerializer
 
@@ -81,11 +78,10 @@ class PreferredPropertyList(generics.ListCreateAPIView):
 
 class PreferredPropertyDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    model = PreferredProperty
     lookup_field = "id"
 
     def get_queryset(self):
-        return self.model.objects.filter(users=self.kwargs["pk"])
+        return PreferredProperty.objects.filter(users=self.kwargs["pk"])
 
     serializer_class = PreferredPropertySerializer
 
