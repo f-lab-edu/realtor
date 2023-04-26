@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
-        fields = ["id", "status", "comment", "created_at", "updated_at"]
+        fields = ["id", "status", "comment", "agent", "user", "created_at", "updated_at"]
 
 
 class PreferredPropertySerializer(serializers.ModelSerializer):
