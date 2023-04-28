@@ -1,0 +1,39 @@
+name: Build Docker file
+
+on:
+  push:
+    branches:
+      - ci-test
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+        
+    - name: Build and tag Docker image
+      run: |
+        docker build -t salr921/realtor:$GITHUB_SHA .
+        docker tag salr921/realtor:$GITHUB_SHA salr921/realtor:7
+        echo "::set-output name=image::salr921/realtor:7"
+    
+    - name: Login to ECR
+      id: ecr
+      uses: jwalton/gh-ecr-login@v1
+      with:
+        access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: us-east-1
+    
+    - name: Push Docker image to ECR
+      env:
+        ECR_ACCOUNT: ${{ steps.ecr.outputs.account }}
+        IMAGE_NAME: salr921/realtor
+        TAG: 7
+      run: |
+        docker tag $IMAGE_NAME:$TAG $ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$IMGAE_NAME:$TAG
+        docker push $ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:$TAG
+
+
+
