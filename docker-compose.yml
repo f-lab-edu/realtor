@@ -3,22 +3,25 @@ version: '3.9'
 services:
   realtor:
     build:
-      context: . #현재 디렉토리
-      dockerfile: dockerfile
-    command: gunicorn backend.wsqi.application --bind 0.0.0.0:8000
-    volumes: # 서로 싱크 시켜주는 용도. 
-      - ./realtor/realtor:/realtor/realtor
+      context: . 
+      dockerfile: Dockerfile
+    volumes: 
+      - .:/realtor
     ports:
       - 8000:8000
     depends_on:
-      - db
+      - 'db'
   
   db:
-    image: postgres
+    image: postgres:latest
+    restart: always
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ./data/postgres/:/var/lib/postgresql/data
+    ports: 
+      - "5432:5432"
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER= $${ db_USERNAME }
+      - POSTGRES_PASSWORD= $${ db_PWD_VAR }
     
+  

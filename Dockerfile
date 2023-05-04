@@ -29,7 +29,7 @@ ENV POETRY_VERSION=1.4.1
 RUN curl -sSL https://install.python-poetry.org | python -
 
 WORKDIR $PYSETUP_PATH
-COPY ./poetry.lock ./pyproject.toml ./
+COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-dev
 
 # production 
@@ -38,14 +38,10 @@ ENV PATH="/opt/pysetup/.venv/bin:$PATH"
 WORKDIR /realtor
 
 COPY --from=builder $VENV_PATH $VENV_PATH
-COPY ./gunicornConf.py /gunicornConf.py
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-COPY ./realtor /realtor
-
 ENTRYPOINT /docker-entrypoint.sh $0 $@
-CMD [ "gunicorn", "--worker-class uvicorn.workers.UvicornWorker", "--config /gunicorn_conf.py", "main:realtor"]
+CMD [ "gunicorn", "--worker-class uvicorn.workers.UvicornWorker", "--workers=2", "--bind",  "main:realtor"]
 
-# CMD ["poetry", "run", "python", "realtor/manage.py", "runserver"]
