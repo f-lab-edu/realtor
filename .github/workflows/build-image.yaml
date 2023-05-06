@@ -33,5 +33,5 @@ jobs:
           ECR_ACCOUNT: ${{ steps.ecr.outputs.account }}
         run: |
           SHA_SHORT=$(git rev-parse --short HEAD)
-          docker build -t ${ECR_ACCOUNT}.${ECR_REPO_SUFFIX}/${IMAGE_NAME}:${SHA_SHORT}
+          docker build -t ${ECR_ACCOUNT}.${ECR_REPO_SUFFIX}/${IMAGE_NAME}:${SHA_SHORT} -f Dockerfile .
           docker push ${ECR_ACCOUNT}.${ECR_REPO_SUFFIX}/${IMAGE_NAME}:${SHA_SHORT}
