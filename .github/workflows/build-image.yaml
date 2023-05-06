@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request: # 테스트용
-    types:
-      - opened
-      - synchronize
-    branches:
-      - main
 
 jobs:
   build-and-push:
