@@ -1,0 +1,37 @@
+name: Build Container Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: # 테스트용
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    name: Build container image and push it to ECR.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-login@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ap-northeast-2
+
+      - name: Build and push Docker image
+        env:
+          IMAGE_NAME: realtor-api
+          ECR_REPO_SUFFIX: dkr.ecr.ap-northeast-2.amazonaws.com
+          ECR_ACCOUNT: ${{ steps.ecr.outputs.account }}
+          SHA_SHORT: $(git rev-parse --short HEAD)
+        run: |
+          docker build -t ${ECR_ACCOUNT}.${ECR_REPO_SUFFIX}/${IMAGE_NAME}:${SHA_SHORT}
+          docker push ${ECR_ACCOUNT}.${ECR_REPO_SUFFIX}/${IMAGE_NAME}:${SHA_SHORT}
