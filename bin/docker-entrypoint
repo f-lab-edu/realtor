@@ -1,0 +1,18 @@
+#! /bin/bash
+
+cd /app/realtor
+
+if [[ $1 = 'collect-static' ]]; then
+    exec python manage.py collectstatic --no-input
+fi
+
+if [[ $1 = 'migrate' ]]; then
+    exec python manage.py migrate
+fi
+
+if [[ $1 = 'app' ]]; then
+    exec gunicorn realtor.wsgi:application \
+        --worker-class gevent \
+        --workers=2 \
+        --bind 0.0.0.0:8000
+fi
