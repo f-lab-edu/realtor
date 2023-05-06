@@ -4,7 +4,7 @@ FROM python:3.11 as builder
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
     && pip install gunicorn[gevent]
 
-# Install Poetgry
+# Install Poetry
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python && \
     cd /usr/local/bin && \
     ln -s /opt/poetry/bin/poetry && \
