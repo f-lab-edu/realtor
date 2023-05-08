@@ -20,12 +20,3 @@ def test_registration_api(client):
 
     response = client.post("http://localhost:8000/authentication/registration/", json=data)
     assert response.status_code == 200
-
-
-# @pytest.mark.django_db
-# def test_login_api(client):
-#     data = {
-#         "username": "salr",
-#         "password": "wjddk12wjddk"}
-#     response = client.post('http://localhost:8000/authentication/login/', json=data)
-#     assert response.status_code == 200
