@@ -44,12 +44,37 @@ def test_user_get(client):
 
 @pytest.mark.django_db
 def test_user_post(client):
-    data = {"username": "dd", "password": "wjddk12edaf", "phone": "01000000900"}
+    payload = {
+        "username": "dd",
+        "password": "wjddk12edaf",
+        "phone": "01000000900",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
     response = client.post(
-        "http://localhost:8000/users/", data=json.dumps(dict(data)), content_type="application/json"
+        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
     )
 
     assert response.status_code == 201
+    assert response.json() == {
+        "id": 1,
+        "username": "dd",
+        "email": "",
+        "phone": "01000000900",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
+
+
+@pytest.mark.django_db
+def test_user_update(client, create_user):
+    payload = {"username": "ded", "phone": "01000000000"}
+
+    user = create_user(username="sang")
+    id = user.id
+    response = client.put(
+        f"http://localhost:8000/users/{id}", data=json.dumps(dict(payload)), content_type="application/json"
+    )
+    print(response)
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
@@ -58,7 +83,6 @@ def test_user_delete(client, create_user):
     user = create_user(username="sanghun")
     id = user.id
     response = client.delete(f"http://localhost:8000/users/{id}")
-    assert response.json == {}
     assert response.status_code == 200
 
 
