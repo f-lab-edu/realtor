@@ -17,10 +17,16 @@ def test_phone():
 
 
 @pytest.fixture
-def create_user(db, django_user_model, test_password, test_phone):
+def test_date():
+    return "2023-05-08T22:55:10.837518Z"
+
+
+@pytest.fixture
+def create_user(db, django_user_model, test_password, test_phone, test_date):
     def make_user(**kwargs):
         kwargs["password"] = test_password
         kwargs["phone"] = test_phone
+        kwargs["date_joined"] = test_date
         if "username" not in kwargs:
             kwargs["username"] = str(uuid.uuid4())
         return django_user_model.objects.create_user(**kwargs)
@@ -40,6 +46,21 @@ def test_user_create(create_user):
 def test_user_get(client):
     response = client.get("http://localhost:8000/users/")
     assert response.status_code == 200
+    assert response.json() == []
+
+
+@pytest.mark.django_db
+def test_user_getById(client, create_user):
+    user = create_user(username="sang")
+    response = client.get(f"http://localhost:8000/users/{1}/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "username": "sang",
+        "email": "",
+        "phone": "01000000000",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
 
 
 @pytest.mark.django_db
@@ -71,7 +92,7 @@ def test_user_update(client, create_user):
     user = create_user(username="sang")
     id = user.id
     response = client.put(
-        f"http://localhost:8000/users/{id}", data=json.dumps(dict(payload)), content_type="application/json"
+        f"http://localhost:8000/users/{id}/", data=json.dumps(dict(payload)), content_type="application/json"
     )
     print(response)
     assert response.status_code == 200
@@ -82,8 +103,8 @@ def test_user_delete(client, create_user):
 
     user = create_user(username="sanghun")
     id = user.id
-    response = client.delete(f"http://localhost:8000/users/{id}")
-    assert response.status_code == 200
+    response = client.delete(f"http://localhost:8000/users/{id}/")
+    assert response.status_code == 204
 
 
 def test_user_serializer():
