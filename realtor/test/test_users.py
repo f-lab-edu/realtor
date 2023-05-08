@@ -52,7 +52,8 @@ def test_user_get(client):
 @pytest.mark.django_db
 def test_user_getById(client, create_user):
     user = create_user(username="sang")
-    response = client.get(f"http://localhost:8000/users/{1}/")
+    id = user.id
+    response = client.get(f"http://localhost:8000/users/{id}/")
     assert response.status_code == 200
     assert response.json() == {
         "id": 1,
@@ -105,6 +106,42 @@ def test_user_delete(client, create_user):
     id = user.id
     response = client.delete(f"http://localhost:8000/users/{id}/")
     assert response.status_code == 204
+
+
+@pytest.mark.django_db
+def test_get_user_not_found(client):
+    id = 111111  # dummy id
+    response = client.get(f"http://localhost:8000/users/{id}/")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Not found."}
+
+
+@pytest.mark.django_db
+def test_user_delete_not_found(client):
+    id = 111111  # dummy id
+    response = client.delete(f"http://localhost:8000/users/{id}/")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Not found."}
+
+
+@pytest.mark.django_db
+def test_user_update_not_found(client):
+    id = 111111  # dummy id
+    response = client.put(f"http://localhost:8000/users/{id}/")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Not found."}
+
+
+@pytest.mark.django_db
+def test_user_post_invalid_field(client):
+    payload = {
+        "user": "dd",
+    }
+    response = client.post(
+        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
+    )
+    assert response.status_code == 400
+    assert response.json() == {"username": ["This field is required."], "phone": ["This field is required."]}
 
 
 def test_user_serializer():
