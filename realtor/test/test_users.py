@@ -154,3 +154,71 @@ def test_user_serializer():
     assert f.to_representation(obj) == ""
     obj.username = "sanghun"
     assert f.to_representation(obj) == "sanghun"
+
+
+@pytest.mark.django_db
+def test_user_integrate_get_and_post(client):
+    response = client.get("http://localhost:8000/users/")
+    assert response.status_code == 200
+    assert response.json() == []
+
+    payload = {
+        "username": "dd",
+        "password": "wjddk12edaf",
+        "phone": "01000000900",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
+
+    response = client.post(
+        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
+    )
+    assert response.status_code == 201
+    assert response.json() == {
+        "id": 1,
+        "username": "dd",
+        "email": "",
+        "phone": "01000000900",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
+
+    response = client.get("http://localhost:8000/users/")
+    assert response.status_code == 200
+    assert "dd" in str(response.content)
+
+    response = client.get("http://localhost:8000/users/1/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "username": "dd",
+        "email": "",
+        "phone": "01000000900",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
+
+    payload = {"username": "ded", "phone": "01000000000"}
+    response = client.put(
+        "http://localhost:8000/users/1/", data=json.dumps(dict(payload)), content_type="application/json"
+    )
+    assert response.status_code == 200
+    assert "ded" in str(response.content)
+
+    response = client.get("http://localhost:8000/users/1/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": 1,
+        "username": "ded",
+        "email": "",
+        "phone": "01000000000",
+        "date_joined": "2023-05-08T22:55:10.837518Z",
+    }
+
+    response = client.delete("http://localhost:8000/users/1/")
+    assert response.status_code == 204
+
+    response = client.get("http://localhost:8000/users/1/")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Not found."}
+
+    response = client.get("http://localhost:8000/users/")
+    assert response.status_code == 200
+    assert response.json() == []
