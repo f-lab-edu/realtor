@@ -157,7 +157,7 @@ def test_user_serializer():
 
 
 @pytest.mark.django_db
-def test_user_integrate_get_and_post(client):
+def test_user_integrate_ALL_CRUD(client):
     response = client.get("http://localhost:8000/users/")
     assert response.status_code == 200
     assert response.json() == []
