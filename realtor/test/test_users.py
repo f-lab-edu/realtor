@@ -62,6 +62,7 @@ def test_user_getById(client, create_user):
         "phone": "01000000000",
         "date_joined": "2023-05-08T22:55:10.837518Z",
     }
+    assert "sang" == response.json()["username"]
 
 
 @pytest.mark.django_db
