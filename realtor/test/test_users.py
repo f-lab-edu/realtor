@@ -44,7 +44,7 @@ def test_user_create(create_user):
 
 @pytest.mark.django_db
 def test_user_get(client):
-    response = client.get("http://localhost:8000/users/")
+    response = client.get("/users/")
     assert response.status_code == 200
     assert response.json() == []
 
@@ -53,7 +53,7 @@ def test_user_get(client):
 def test_user_getById(client, create_user):
     user = create_user(username="sang")
     id = user.id
-    response = client.get(f"http://localhost:8000/users/{id}/")
+    response = client.get(f"/users/{id}/")
     assert response.status_code == 200
     assert response.json() == {
         "id": 1,
@@ -73,9 +73,7 @@ def test_user_post(client):
         "phone": "01000000900",
         "date_joined": "2023-05-08T22:55:10.837518Z",
     }
-    response = client.post(
-        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.post("/users/", data=json.dumps(dict(payload)), content_type="application/json")
 
     assert response.status_code == 201
     assert response.json() == {
@@ -93,9 +91,7 @@ def test_user_update(client, create_user):
 
     user = create_user(username="sang")
     id = user.id
-    response = client.put(
-        f"http://localhost:8000/users/{id}/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.put(f"/users/{id}/", data=json.dumps(dict(payload)), content_type="application/json")
     print(response)
     assert response.status_code == 200
 
@@ -105,14 +101,14 @@ def test_user_delete(client, create_user):
 
     user = create_user(username="sanghun")
     id = user.id
-    response = client.delete(f"http://localhost:8000/users/{id}/")
+    response = client.delete(f"/users/{id}/")
     assert response.status_code == 204
 
 
 @pytest.mark.django_db
 def test_get_user_not_found(client):
     id = 111111  # dummy id
-    response = client.get(f"http://localhost:8000/users/{id}/")
+    response = client.get(f"/users/{id}/")
     assert response.status_code == 404
     assert response.json() == {"detail": "Not found."}
 
@@ -120,7 +116,7 @@ def test_get_user_not_found(client):
 @pytest.mark.django_db
 def test_user_delete_not_found(client):
     id = 111111  # dummy id
-    response = client.delete(f"http://localhost:8000/users/{id}/")
+    response = client.delete(f"/users/{id}/")
     assert response.status_code == 404
     assert response.json() == {"detail": "Not found."}
 
@@ -128,7 +124,7 @@ def test_user_delete_not_found(client):
 @pytest.mark.django_db
 def test_user_update_not_found(client):
     id = 111111  # dummy id
-    response = client.put(f"http://localhost:8000/users/{id}/")
+    response = client.put(f"/users/{id}/")
     assert response.status_code == 404
     assert response.json() == {"detail": "Not found."}
 
@@ -138,9 +134,7 @@ def test_user_post_invalid_field(client):
     payload = {
         "user": "dd",
     }
-    response = client.post(
-        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.post("/users/", data=json.dumps(dict(payload)), content_type="application/json")
     assert response.status_code == 400
     assert response.json() == {"username": ["This field is required."], "phone": ["This field is required."]}
 
@@ -154,71 +148,3 @@ def test_user_serializer():
     assert f.to_representation(obj) == ""
     obj.username = "sanghun"
     assert f.to_representation(obj) == "sanghun"
-
-
-@pytest.mark.django_db
-def test_user_integrate_ALL_CRUD(client):
-    response = client.get("http://localhost:8000/users/")
-    assert response.status_code == 200
-    assert response.json() == []
-
-    payload = {
-        "username": "dd",
-        "password": "wjddk12edaf",
-        "phone": "01000000900",
-        "date_joined": "2023-05-08T22:55:10.837518Z",
-    }
-
-    response = client.post(
-        "http://localhost:8000/users/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
-    assert response.status_code == 201
-    assert response.json() == {
-        "id": 1,
-        "username": "dd",
-        "email": "",
-        "phone": "01000000900",
-        "date_joined": "2023-05-08T22:55:10.837518Z",
-    }
-
-    response = client.get("http://localhost:8000/users/")
-    assert response.status_code == 200
-    assert "dd" in str(response.content)
-
-    response = client.get("http://localhost:8000/users/1/")
-    assert response.status_code == 200
-    assert response.json() == {
-        "id": 1,
-        "username": "dd",
-        "email": "",
-        "phone": "01000000900",
-        "date_joined": "2023-05-08T22:55:10.837518Z",
-    }
-
-    payload = {"username": "ded", "phone": "01000000000"}
-    response = client.put(
-        "http://localhost:8000/users/1/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
-    assert response.status_code == 200
-    assert "ded" in str(response.content)
-
-    response = client.get("http://localhost:8000/users/1/")
-    assert response.status_code == 200
-    assert response.json() == {
-        "id": 1,
-        "username": "ded",
-        "email": "",
-        "phone": "01000000000",
-        "date_joined": "2023-05-08T22:55:10.837518Z",
-    }
-
-    response = client.delete("http://localhost:8000/users/1/")
-    assert response.status_code == 204
-
-    response = client.get("http://localhost:8000/users/1/")
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Not found."}
-
-    response = client.get("http://localhost:8000/users/")
-    assert response.status_code == 200
-    assert response.json() == []

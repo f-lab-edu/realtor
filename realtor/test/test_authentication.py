@@ -60,7 +60,7 @@ def test_registration_superuser_api(client):
     }
 
     response = client.post(
-        "http://localhost:8000/authentication/registration/",
+        "/authentication/registration/",
         data=json.dumps(dict(data)),
         content_type="application/json",
     )
@@ -81,7 +81,7 @@ def test_registration_duplicated_username_api(client, register_user):
     }
 
     response = client.post(
-        "http://localhost:8000/authentication/registration/",
+        "/authentication/registration/",
         data=json.dumps(dict(payload)),
         content_type="application/json",
     )
@@ -101,7 +101,7 @@ def test_registration_short_username_api(client):
     }
 
     response = client.post(
-        "http://localhost:8000/authentication/registration/",
+        "/authentication/registration/",
         data=json.dumps(dict(data)),
         content_type="application/json",
     )
@@ -116,9 +116,7 @@ def test_login_api(client, register_user):
         "username": "sang",
         "password": "wjddk12wjddk",
     }
-    response = client.post(
-        "http://localhost:8000/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.post("/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json")
     assert response.status_code == 200
     assert "sang" == response.json()["username"]
 
@@ -130,9 +128,7 @@ def test_login_not_matched_payload_api(client, register_user):
         "username": "sang",
         "password": "d",
     }
-    response = client.post(
-        "http://localhost:8000/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.post("/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json")
     assert response.status_code == 400
     assert response.json() == {"non_field_errors": ["A user with this username and password was not found"]}
 
@@ -141,9 +137,7 @@ def test_login_not_matched_payload_api(client, register_user):
 def test_login_invalid_payload_api(client, register_user):
     register_user(username="sang")
     payload = {}
-    response = client.post(
-        "http://localhost:8000/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json"
-    )
+    response = client.post("/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json")
     assert response.status_code == 400
     assert response.json() == {"username": ["This field is required."], "password": ["This field is required."]}
 
@@ -172,7 +166,7 @@ def test_login_parametrizing_api(api_client, username, password, status_code, re
         "password": password,
     }
     response = api_client.post(
-        "http://localhost:8000/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json"
+        "/authentication/login/", data=json.dumps(dict(payload)), content_type="application/json"
     )
     print(response.json())
     assert response.status_code == status_code
