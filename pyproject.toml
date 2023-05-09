@@ -13,6 +13,7 @@ django-rest-auth = "^0.9.5"
 django-allauth = "^0.54.0"
 django-admin-rangefilter = "^0.10.0"
 pytest-django = "^4.5.2"
+pytest-cov = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
