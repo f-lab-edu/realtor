@@ -13,23 +13,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.11
-    - name: Install other dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install libsasl2-dev libldap2-dev libssl-dev
-    - name: Cache poetry install
-      uses: actions/cache@v2
-      with:
-        path: ~/.local
-        key: poetry-latest
-    - uses: snok/install-poetry@v1
-      with:
-        version: latest
-        virtualenvs-create: true
-        virtualenvs-in-project: true
-    - run: poetry install --no-interaction --no-root
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install other dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsasl2-dev libldap2-dev libssl-dev
+      - name: Cache poetry install
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-latest
+      - uses: snok/install-poetry@v1
+        with:
+          version: latest
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      - run: poetry install --no-interaction --no-root
+      - run: poetry run pytest realtor/test
