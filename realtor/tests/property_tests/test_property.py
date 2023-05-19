@@ -53,6 +53,18 @@ def test_property(client):
     response = client.patch(f"/properties/{id}/", data=json.dumps(dict(payload)), content_type="application/json")
     assert response.status_code == 200
 
+    response = client.put(f"/properties/{id}/", data={}, content_type="application/json")
+    assert response.status_code == 400
+    assert response.json() == {
+        "price": ["This field is required."],
+        "city": ["This field is required."],
+        "district": ["This field is required."],
+        "zone": ["This field is required."],
+        "size": ["This field is required."],
+        "description": ["This field is required."],
+        "maintenance_cost": ["This field is required."],
+    }
+
     response = client.delete(f"/properties/{id}/")
     assert response.status_code == 204
 

@@ -8,6 +8,12 @@ class User(AbstractUser):
     phone = models.CharField(max_length=12)
 
 
+class Agent(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    rating = models.DecimalField(decimal_places=1, max_digits=2)
+
+
 class Application(models.Model):
     class StatusType(models.IntegerChoices):
         SUBMITTED = 1
@@ -18,7 +24,7 @@ class Application(models.Model):
     comment = models.TextField()
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    agent = models.ForeignKey("transactions.Agent", on_delete=models.CASCADE)
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
@@ -36,3 +42,14 @@ class PreferredProperty(models.Model):
 
     class Meta:
         verbose_name_plural = "Preferred_Properties"
+
+
+class Contract(models.Model):
+
+    mortgage_ratio = models.DecimalField(decimal_places=2, max_digits=4)
+    down_payment = models.IntegerField()
+    agreements = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

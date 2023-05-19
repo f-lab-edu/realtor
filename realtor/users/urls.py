@@ -9,6 +9,10 @@ urlpatterns = [
     path("<int:pk>/applications/<int:id>/", views.ApplicationDetail.as_view()),
     path("<int:pk>/preferredProperties/", views.PreferredPropertyList.as_view()),
     path("<int:pk>/preferredProperties/<int:id>/", views.PreferredPropertyDetail.as_view()),
+    path("<int:pk>/agents/", views.AgentList.as_view()),
+    path("<int:pk>/agents/<int:id>/", views.AgentDetail.as_view()),
+    path("<int:pk>/agents/<int:aid>/contracts/", views.ContractList.as_view()),
+    path("<int:pk>/agents/<int:aid>/contracts/<int:id>/", views.ContractDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

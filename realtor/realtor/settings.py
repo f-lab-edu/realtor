@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "properties.apps.PropertiesConfig",
-    "transactions.apps.TransactionsConfig",
     "users.apps.UsersConfig",
     "rest_framework",
     "rest_framework.authtoken",

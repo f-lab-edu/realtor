@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Application, PreferredProperty, User
+from .models import Agent, Application, Contract, PreferredProperty, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,6 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
             "phone",
             "date_joined",
         ]
+
+
+class AgentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Agent
+        fields = ["id", "rating"]
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -35,3 +41,9 @@ class PreferredPropertySerializer(serializers.ModelSerializer):
             "budget_to",
             "description",
         ]
+
+
+class ContractSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = ["id", "mortgage_ratio", "down_payment", "start_date", "end_date", "agent"]

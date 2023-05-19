@@ -68,6 +68,18 @@ def test_user_update(client, create_user):
 
 
 @pytest.mark.django_db
+def test_user_partial_update(client, create_user):
+
+    payload = {"username": "hey"}
+
+    user = create_user(username="sang")
+    id = user.id
+
+    response = client.patch(f"/users/{id}/", data=json.dumps(dict(payload)), content_type="application/json")
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_user_delete(client, create_user):
 
     user = create_user(username="sanghun")
