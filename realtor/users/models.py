@@ -10,7 +10,7 @@ class User(AbstractUser):
 
 class Agent(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.DecimalField(decimal_places=1, max_digits=2)
 
 
@@ -24,7 +24,7 @@ class Application(models.Model):
     comment = models.TextField()
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    agent = models.ForeignKey(Agent, on_delete=models.CASCADE)
+    agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
@@ -38,7 +38,7 @@ class PreferredProperty(models.Model):
     budget_from = models.IntegerField()
     budget_to = models.IntegerField()
     description = models.TextField()
-    users = models.ManyToManyField(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Preferred_Properties"

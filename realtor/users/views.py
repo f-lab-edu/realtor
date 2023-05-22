@@ -47,8 +47,10 @@ class ApplicationList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        foreign_key_id = self.kwargs["pk"]
+        user = User.objects.get(id=foreign_key_id)
+        serializer.save(user=user)
 
 
 class ApplicationDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -78,8 +80,10 @@ class PreferredPropertyList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        foreign_key_id = self.kwargs["pk"]
+        user = User.objects.get(id=foreign_key_id)
+        serializer.save(user=user)
 
 
 class PreferredPropertyDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -112,8 +116,8 @@ class AgentList(generics.ListCreateAPIView):
         return self.list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        foreign_key_id = self.kwargs["pk"]
-        user = User.objects.get(id=foreign_key_id)
+        agent_id = self.kwargs["pk"]
+        user = User.objects.get(id=agent_id)
         serializer.save(user=user)
 
 
@@ -146,8 +150,12 @@ class ContractList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(id=user_id)
+        agent_id = self.kwargs["aid"]
+        agent = Agent.objects.get(id=agent_id)
+        serializer.save(user=user, agent=agent)
 
 
 class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -164,6 +172,9 @@ class ContractDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
