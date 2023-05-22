@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 class AgentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agent
-        fields = ["id", "rating"]
+        fields = "__all__"
 
 
 class ApplicationSerializer(serializers.ModelSerializer):

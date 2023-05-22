@@ -111,8 +111,10 @@ class AgentList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):  # admin monitors all users
         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        foreign_key_id = self.kwargs["pk"]
+        user = User.objects.get(id=foreign_key_id)
+        serializer.save(user=user)
 
 
 class AgentDetail(generics.RetrieveUpdateDestroyAPIView):
