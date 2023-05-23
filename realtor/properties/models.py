@@ -1,7 +1,6 @@
 from django.db import models
 from properties.enums import DetailedType, PropertyType, StatusType
-from transactions.models import Agent
-from users.models import User
+from users.models import Agent, User
 
 
 class Property(models.Model):
