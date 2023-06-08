@@ -63,18 +63,20 @@ class CityDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DistrictList(generics.ListCreateAPIView):
+    def get_queryset(self):
 
-    queryset = District.objects.all()
+        return District.objects.filter(city=self.kwargs["pk"])
+
     serializer_class = DistrictSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        city_name = self.request.data.get("city")
+        city_id = self.kwargs["pk"]
+        city = City.objects.get(id=city_id)
         district_name = self.request.data.get("name")
 
-        city = City.objects.get(name=city_name)
         valid_districts = get_valid_districts(city)
 
         if district_name not in valid_districts:
@@ -94,7 +96,12 @@ class DistrictList(generics.ListCreateAPIView):
 
 class DistrictDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    queryset = District.objects.all()
+    lookup_field = "d_id"
+
+    def get_queryset(self):
+
+        return District.objects.filter(city=self.kwargs["pk"])
+
     serializer_class = DistrictSerializer
 
     def get(self, request, *args, **kwargs):
