@@ -4,28 +4,33 @@ from rest_framework import generics, serializers
 
 
 class PropertyList(generics.ListCreateAPIView):
+    def get_queryset(self):
+        return Property.objects.filter(city=self.kwargs["pk"], district=self.kwargs["d_id"])
 
-    queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    # def post(self, request, *args, **kwargs):
-    #     return self.create(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        if self.request.method == "POST":
-            city_id = self.request.data.get("city")
-            if city_id:
-                context["district_queryset"] = District.objects.filter(city_id=city_id)
-        return context
+    # def get_serializer_context(self):
+    #     context = super().get_serializer_context()
+    #     if self.request.method == "POST":
+    #         city_id = self.request.data.get("city")
+    #         if city_id:
+    #             context["district_queryset"] = District.objects.filter(city_id=city_id)
+    #     return context
 
 
 class PropertyDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    queryset = Property.objects.all()
+    lookup_field = "p_id"
+
+    def get_queryset(self):
+        return Property.objects.filter(city=self.kwargs["pk"], district=self.kwargs["d_id"])
+
     serializer_class = PropertySerializer
 
     def get(self, request, *args, **kwargs):

@@ -46,3 +46,17 @@ class PropertySerializer(serializers.ModelSerializer):
             "maintenance_cost",
             "status",
         ]
+
+    def validate(self, attrs):
+        city = attrs.get("city")
+        district = attrs.get("district")
+        zone = attrs.get("zone")
+
+        if city and district:
+            if district.city != city:
+                raise serializers.ValidationError("Selected district does not belong to the selected city.")
+        if zone:
+            if zone.district != district:
+                raise serializers.ValidationError("Selected zone does not belong to the selected district.")
+
+        return attrs
